@@ -6,7 +6,7 @@ export default function App() {
   return (
     <div>
       This is Development Page!
-      <p>{state}</p>
+      <p>{JSON.stringify(state)}</p>
     </div>
   );
 }
