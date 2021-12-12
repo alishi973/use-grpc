@@ -1,12 +1,7 @@
 import React from "react";
-import { useGRPC } from "./lib";
+import SimpleRequestExample from "./examples/simple-request";
 
 export default function App() {
-  const { state } = useGRPC();
-  return (
-    <div>
-      This is Development Page!
-      <p>{JSON.stringify(state)}</p>
-    </div>
-  );
+  return <SimpleRequestExample />;
+  return <div>This is Development Page!</div>;
 }
