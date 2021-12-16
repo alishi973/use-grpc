@@ -1,27 +1,47 @@
 import { useContext, useEffect, useState } from "react";
-import { Metadata, UnaryResponse } from "grpc-web";
 import { GrpcQueryContext } from "./GrpcQueryProvider";
+import { ApiCallResponseToObjectReturnType, ClientReturnType } from "./model";
 
-interface ServiceClientType { new(url: string): any }
-interface Model { Request: any, Response: any }
+export const createService = <T extends new (...args: any) => InstanceType<T>>(client: T, baseUrl: string) => new client(baseUrl);
 
-const useGRPC = <T extends ServiceClientType, RequestModel extends Model>(serviceClient: T, model: RequestModel, method: keyof InstanceType<T>) => {
-  const [state, setState] = useState();
-  const options = useContext(GrpcQueryContext)
-  const payload = new model.Request()
-  const meta: Metadata = {}
+function useProviderValue() {
+  const context = useContext(GrpcQueryContext);
+  if (context === undefined) {
+    throw new Error("useGRPC must be used within a GrpcQueryProvider");
+  }
+  return context;
+}
+
+const useGRPC = <TApi, TReqParam, TRes extends ApiCallResponseToObjectReturnType<TApi>>(api: ClientReturnType<TApi, TReqParam>): { call: () => any, data?: TRes, error: string, isLoading: boolean, isLoaded: boolean } => {
+  const option = useProviderValue();
+  const [data, setData] = useState<TRes>()
+  const [error, setError] = useState<any>()
+  const [isLoading, setIsLoading] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
-    const client = new serviceClient(options.baseUrl)
-    // client[method](payload, meta).then((data: any) => {
-    //   setState(data)
-    // })
-    client[method](payload, meta).then((data: typeof model.Response) => {
-      setState(data.toObject?.())
-    })
+    call()
   }, [])
 
-  return { state };
+  const call = async () => {
+    setIsLoading(true)
+    setIsLoaded(false)
+    const request = new api.requestObject();
+    const client = api.client as unknown as Function
+    try {
+      const response = await client(request, {})
+      setData(response?.toObject?.())
+      setIsLoaded(true)
+    } catch (e) {
+      setError(e)
+    } finally {
+      setIsLoading(false)
+    }
+
+  }
+
+  return { data, isLoaded, isLoading, error, call }
 }
+
 
 export default useGRPC;

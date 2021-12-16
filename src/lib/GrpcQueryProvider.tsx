@@ -3,27 +3,20 @@ import * as React from "react";
 export interface GrpcQueryOption {
   baseUrl: string;
 }
+
 type GrpcQueryProviderTypes = {
   children: React.ReactNode;
-  option: GrpcQueryOption;
 };
 
-export const GrpcQueryContext = React.createContext<GrpcQueryOption>({ baseUrl: "" });
+export const GrpcQueryContext = React.createContext<{}>({});
 
-function GrpcQueryProvider({ children, option }: GrpcQueryProviderTypes) {
+function GrpcQueryProvider({ children }: GrpcQueryProviderTypes) {
+  const value = {};
   return (
-    <GrpcQueryContext.Provider value={option}>
+    <GrpcQueryContext.Provider value={value}>
       {children}
     </GrpcQueryContext.Provider>
   );
-}
-
-function useCount() {
-  const context = React.useContext(GrpcQueryContext);
-  if (context === undefined) {
-    throw new Error("useGRPC must be used within a GrpcQueryProvider");
-  }
-  return context;
 }
 
 export default GrpcQueryProvider;
