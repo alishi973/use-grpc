@@ -30,7 +30,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "noEmit": true
+    "emitDeclarationOnly": true
   },
   "exclude": [
     "node_modules",

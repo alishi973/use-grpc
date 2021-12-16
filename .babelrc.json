@@ -1,0 +1,10 @@
+{
+  "presets": [
+    "@babel/preset-typescript",
+    "@babel/env",
+    "@babel/preset-react",
+    "minify"
+  ],
+  "ignore": ["**/model.ts"],
+  "comments": false
+}
