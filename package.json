@@ -1,11 +1,12 @@
 {
   "name": "use-grpc",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "private": false,
   "author": "Ali Shirzad",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "repository": "git://github.com/alishi973/use-grpc.git",
   "files": [
     "dist",
     "README.md"
