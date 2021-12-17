@@ -3,12 +3,16 @@ import { api } from "./config";
 import { GrpcQueryProvider, useGRPC } from "../../lib";
 
 const ExampleApplication = () => {
-  const { data, error, call } = useGRPC(api.sayHello, { greeting: "Hi!" });
+  const { data, error, call } = useGRPC(api.sayHello);
+
+  const handleOnFetchDataClick = () => {
+    call({ greeting: "Hi From Caller function" });
+  };
 
   return (
     <div>
       This is Simple Request example for use-grpc
-      <button onClick={call}>Fetch data!</button>
+      <button onClick={handleOnFetchDataClick}>Fetch data!</button>
       <code>
         <p>Response will show here:</p>
         {JSON.stringify(data)}

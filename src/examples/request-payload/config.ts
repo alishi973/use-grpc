@@ -16,7 +16,6 @@ bindThisToGateway(gateway)
 const api = {
     sayHello: {
         client: gateway.HelloService.client.sayHello,
-        requestObject: gateway.HelloService.model.HelloRequest,
         autoCall: false,
         payload: ({ greeting }: { greeting: string }) => {
             const req = new gateway.HelloService.model.HelloRequest()
