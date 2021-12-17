@@ -1,3 +1,8 @@
+## useGRPC hook for interact with grpc application
+
+[![install size](https://badgen.net/bundlephobia/minzip/use-grpc)](https://bundlephobia.com/result?p=use-grpc)
+[![npm total downloads](https://badgen.net/npm/dt/use-grpc)](http://npm-stat.com/charts.html?package=use-grpc)
+
 Have you ever tried to bring grpc connection to the web?
 
 then, you may need [grpc-web](https://github.com/grpc/grpc-web) for handle this type of requests.
@@ -64,7 +69,7 @@ import { gateway } from './config.ts'
 const api = {
     sayHello: {
         client: gateway.HelloService.client.sayHello,
-        requestObject: gateway.HelloService.model.HelloRequest
+        payload: () => new gateway.HelloService.model.HelloRequest()
     }
 }
 export { api }
@@ -74,6 +79,7 @@ Then you need to wrap your application with `GrpcQueryProvider`.
 
 ```App.tsx
 import { GrpcQueryProvider } from 'use-grpc'
+
 export default function App() {
   return (
         <!-- Another Provider -->
