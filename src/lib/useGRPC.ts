@@ -20,7 +20,7 @@ const useGRPC = <TApi, TReqParam, TRes extends ApiCallResponseToObjectReturnType
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
-    call()
+    if (api.autoCall === true) call()
   }, [])
 
   const call = async () => {

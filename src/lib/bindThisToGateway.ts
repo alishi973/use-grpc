@@ -1,5 +1,5 @@
 export default function bindApisThis(apis: any) {
-    Object.entries(apis).map(([, service]: any) => {
+    Object.entries(apis).forEach(([, service]: any) => {
         if ('client' in service) {
             getAllMethods(service.client).forEach((key) => {
                 //@ts-ignore
@@ -10,9 +10,9 @@ export default function bindApisThis(apis: any) {
 }
 
 function getAllMethods(obj: object): string[] {
-    if (obj == null || obj.constructor == Object) return []; // recursive approach
+    if (obj == null || obj.constructor === Object) return []; // recursive approach
     const props = Object.getOwnPropertyNames(obj)
         .filter((key) => typeof (obj as any)[key] == 'function')
-        .filter((key) => key != 'constructor');
+        .filter((key) => key !== 'constructor');
     return [...props, ...getAllMethods(Object.getPrototypeOf(obj))];
 }

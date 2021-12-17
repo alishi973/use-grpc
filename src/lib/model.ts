@@ -5,6 +5,7 @@ type BaseClient<TApi> = TApi extends ((request: infer TReq, metadata: Metadata) 
 
 export interface ClientReturnType<TApi, TReqParam> {
     client: TApi;
-    requestObject: new () => BaseClient<TApi>["Req"] | ((parameters: TReqParam) => BaseClient<TApi>["Req"])
+    requestObject: new () => BaseClient<TApi>["Req"] | ((parameters: TReqParam) => BaseClient<TApi>["Req"]);
+    autoCall?: boolean;
 }
 export type ApiCallResponseToObjectReturnType<TApi> = BaseClient<TApi>["Res"] extends { toObject: () => infer TObj } ? TObj : unknown;
