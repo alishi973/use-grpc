@@ -17,7 +17,12 @@ const api = {
     sayHello: {
         client: gateway.HelloService.client.sayHello,
         requestObject: gateway.HelloService.model.HelloRequest,
-        autoCall: false
+        autoCall: false,
+        payload: ({ greeting }: { greeting: string }) => {
+            const req = new gateway.HelloService.model.HelloRequest()
+            req.setGreeting(greeting);
+            return req
+        }
     }
 }
 

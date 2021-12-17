@@ -3,7 +3,7 @@ import { api } from "./config";
 import { GrpcQueryProvider, useGRPC } from "../../lib";
 
 const ExampleApplication = () => {
-  const { data, call } = useGRPC(api.sayHello);
+  const { data, error, call } = useGRPC(api.sayHello, { greeting: "Hi!" });
 
   return (
     <div>
@@ -12,6 +12,8 @@ const ExampleApplication = () => {
       <code>
         <p>Response will show here:</p>
         {JSON.stringify(data)}
+        <p>Error will show here:</p>
+        {JSON.stringify(error)}
       </code>
     </div>
   );

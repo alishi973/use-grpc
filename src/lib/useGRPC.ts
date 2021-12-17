@@ -12,7 +12,7 @@ function useProviderValue() {
   return context;
 }
 
-const useGRPC = <TApi, TReqParam, TRes extends ApiCallResponseToObjectReturnType<TApi>>(api: ClientReturnType<TApi, TReqParam>): { call: () => any, data?: TRes, error: string, isLoading: boolean, isLoaded: boolean } => {
+const useGRPC = <TApi, TReqParam, TRes extends ApiCallResponseToObjectReturnType<TApi>>(api: ClientReturnType<TApi, TReqParam>, payload: TReqParam): { call: () => any, data?: TRes, error: string, isLoading: boolean, isLoaded: boolean } => {
   const option = useProviderValue();
   const [data, setData] = useState<TRes>()
   const [error, setError] = useState<any>()
@@ -26,13 +26,14 @@ const useGRPC = <TApi, TReqParam, TRes extends ApiCallResponseToObjectReturnType
   const call = async () => {
     setIsLoading(true)
     setIsLoaded(false)
-    const request = new api.requestObject();
+    const request = api.payload(payload)
     const client = api.client as unknown as Function
     try {
       const response = await client(request, {})
       setData(response?.toObject?.())
       setIsLoaded(true)
     } catch (e) {
+      console.error(e)
       setError(e)
     } finally {
       setIsLoading(false)
