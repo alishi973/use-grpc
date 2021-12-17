@@ -1,6 +1,6 @@
 {
   "name": "use-grpc",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "private": false,
   "author": "Ali Shirzad",
   "main": "dist/index.js",
