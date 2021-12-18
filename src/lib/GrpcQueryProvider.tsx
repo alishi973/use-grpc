@@ -1,17 +1,20 @@
 import * as React from "react";
 
-export interface GrpcQueryOption {
-  baseUrl: string;
+export interface GrpcQueryOptionType {
+  headers: { [key: string]: string | number };
 }
 
-type GrpcQueryProviderTypes = {
+interface GrpcQueryProviderTypes {
   children: React.ReactNode;
-};
+  option?: GrpcQueryOptionType;
+}
 
-export const GrpcQueryContext = React.createContext<{}>({});
+export const GrpcQueryContext = React.createContext<{
+  option?: GrpcQueryOptionType;
+}>({ option: undefined });
 
-function GrpcQueryProvider({ children }: GrpcQueryProviderTypes) {
-  const value = {};
+function GrpcQueryProvider({ children, option }: GrpcQueryProviderTypes) {
+  const value = { option };
   return (
     <GrpcQueryContext.Provider value={value}>
       {children}
