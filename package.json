@@ -1,5 +1,6 @@
 {
   "name": "use-grpc",
+  "description": "Hooks for fetching asynchronous GRPC data in React!",
   "version": "0.2.8",
   "private": false,
   "author": "Ali Shirzad",
