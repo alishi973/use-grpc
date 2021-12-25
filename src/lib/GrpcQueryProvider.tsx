@@ -1,7 +1,11 @@
 import * as React from "react";
 
 export interface GrpcQueryOptionType {
-  headers: { [key: string]: string | number };
+  headers?: { [key: string]: string | number };
+  beforeCall?: (
+    config: Omit<GrpcQueryOptionType, "beforeCall">
+  ) => GrpcQueryOptionType;
+  afterCall?: () => void;
 }
 
 interface GrpcQueryProviderTypes {

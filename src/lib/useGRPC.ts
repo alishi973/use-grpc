@@ -29,7 +29,8 @@ const useGRPC = <TApi, TReqParam, TRes extends ApiCallResponseToObjectReturnType
     const request = api.payload(params)
     const client = api.client as unknown as Function
     try {
-      const response = await client(request, option?.headers)
+      const requestOptions = option?.beforeCall?.(option) ?? option;
+      const response = await client(request, requestOptions?.headers)
       setData(response?.toObject?.())
       setIsLoaded(true)
     } catch (e) {
