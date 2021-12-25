@@ -21,7 +21,7 @@ const useGRPC = <TApi, TReqParam, TRes extends ApiCallResponseToObjectReturnType
 
   useEffect(() => {
     if (api.autoCall === true) call(payload ?? {} as TReqParam)
-  }, [])
+  }, [payload, api.autoCall])
 
   const call = async (params: TReqParam) => {
     setIsLoading(true)
