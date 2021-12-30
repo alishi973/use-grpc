@@ -1,3 +1,4 @@
+import { StatusCode } from "grpc-web";
 import { useContext, useEffect, useState } from "react";
 import { GrpcQueryContext } from "./GrpcQueryProvider";
 import { ApiCallResponseToObjectReturnType, ClientReturnType } from "./model";
@@ -31,10 +32,12 @@ const useGRPC = <TApi, TReqParam, TRes extends ApiCallResponseToObjectReturnType
     try {
       const requestOptions = option?.beforeCall?.(option) ?? option;
       const response = await client(request, requestOptions?.headers)
+      option?.afterCall?.onResolve?.({ status: StatusCode.OK, data: response?.toObject?.() })
       setData(response?.toObject?.())
       setIsLoaded(true)
-    } catch (e) {
+    } catch (e: any) {
       console.error(e)
+      option?.afterCall?.onReject?.({ error: e?.message, status: e?.code })
       setError(e)
     } finally {
       setIsLoading(false)

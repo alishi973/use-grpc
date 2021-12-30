@@ -1,11 +1,15 @@
 import * as React from "react";
+import { BaseResponseType, FailedResponseType } from "./model";
 
 export interface GrpcQueryOptionType {
   headers?: { [key: string]: string | number };
   beforeCall?: (
     config: Omit<GrpcQueryOptionType, "beforeCall">
   ) => GrpcQueryOptionType;
-  afterCall?: () => void;
+  afterCall?: {
+    onResolve?: (params: BaseResponseType) => void;
+    onReject?: (params: FailedResponseType) => void;
+  };
 }
 
 interface GrpcQueryProviderTypes {
