@@ -11,7 +11,7 @@ for normal use of grpc-web, you wont have hard time, but when types comes import
 
 using `grpc-web` is kinda ugly at first, you can see the document [here](https://github.com/grpc/grpc-web#grpc-web).
 
-but you can leave everythings to `use-grpc` for handling request and it will return everythings you need to you :)
+but you can leave everythings to `use-grpc` for handling request and it will return everythings you need.
 
 this hook will use `grpc-web` under the hood at all.
 
@@ -30,7 +30,7 @@ $ yarn add use-grpc
 Then you need to config your gateway and api methods:
 
 ```config.ts
-import { bindThisToGateway } from 'use-grpc'
+import { createGateway } from 'use-grpc'
 
 import * as HelloModel from './hello_pb'
 import { HelloServiceClient } from './HelloServiceClientPb'
@@ -40,7 +40,7 @@ import { GoodByeServiceClient } from './GoodByeServiceClientPb'
 
 const baseUrl = "http://www.example.com"
 
-const gateway = {
+const gateway = createGateway({
     HelloService: {
         client: createService(HelloServiceClient, baseUrl),
         model: HelloModel
@@ -49,29 +49,26 @@ const gateway = {
         client: createService(GoodByeServiceClient, baseUrl),
         model: GoodByeModel
     }
-}
-
-bindThisToGateway(gateway)
+})
 
 export { gateway }
 ```
 
 `createService` will make Service client with specified url (we add option for include credentials in the future).
-
-⭕ Don't forgot to bind this to client service methods:
-
-`bindThisToGateway` will bind this to the gateway (we refactor this to function that return whole gateway).
+`createGateway` will make Gateway (using gateway without this function may have issue with undefined this, so we bind this to the gateway)
 
 After create gateway, create your api like this:
 
 ```api.ts
 import { gateway } from './config.ts'
+
 const api = {
     sayHello: {
         client: gateway.HelloService.client.sayHello,
         payload: () => new gateway.HelloService.model.HelloRequest()
     }
 }
+
 export { api }
 ```
 
@@ -107,7 +104,7 @@ const ExampleApplication = () => {
   );
 };
 ```
-Or you can see the example [here](https://github.com/alishi973/use-grpc/tree/main/src/examples).
+Or if you want more example, take a look at [here](https://github.com/alishi973/use-grpc/tree/main/src/examples).
 
 ## CONTRIBUTING
 Feel free to ask for feature, Any Pull Request will be appreciated.
