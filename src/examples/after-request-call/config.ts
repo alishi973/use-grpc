@@ -1,11 +1,11 @@
-import { createService, bindThisToGateway, GrpcQueryOptionType } from '../../lib';
+import { createService, createGateway, GrpcQueryOptionType } from '../../lib';
 import * as HelloModel from '../assets/hello_pb'
 import { HelloServiceClient } from '../assets/HelloServiceClientPb'
 import { StatusCode } from 'grpc-web';
 
 const baseUrl = "http://localhost:8080"
 
-const gateway = {
+const gateway = createGateway({
     HelloService: {
         client: createService(HelloServiceClient, baseUrl),
         model: HelloModel
@@ -14,9 +14,7 @@ const gateway = {
         client: createService(HelloServiceClient, baseUrl),
         model: HelloModel
     }
-}
-
-bindThisToGateway(gateway)
+})
 
 const api = {
     sayHello: {

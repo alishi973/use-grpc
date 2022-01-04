@@ -1,17 +1,16 @@
-import { createService, bindThisToGateway } from '../../lib';
+import { createService, createGateway } from '../../lib';
 import * as HelloModel from '../assets/hello_pb'
 import { HelloServiceClient } from '../assets/HelloServiceClientPb'
 
 const baseUrl = "http://localhost:8080"
 
-const gateway = {
+const gateway = createGateway({
     HelloService: {
         client: createService(HelloServiceClient, baseUrl),
         model: HelloModel
     }
-}
+})
 
-bindThisToGateway(gateway)
 
 const api = {
     sayHello: {
