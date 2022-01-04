@@ -30,7 +30,7 @@ $ yarn add use-grpc
 Then you need to config your gateway and api methods:
 
 ```config.ts
-import { createGateway } from 'use-grpc'
+import { createGateway, createService } from 'use-grpc'
 
 import * as HelloModel from './hello_pb'
 import { HelloServiceClient } from './HelloServiceClientPb'
@@ -55,6 +55,7 @@ export { gateway }
 ```
 
 `createService` will make Service client with specified url (we add option for include credentials in the future).
+
 `createGateway` will make Gateway (using gateway without this function may have issue with undefined this, so we bind this to the gateway)
 
 After create gateway, create your api like this:
